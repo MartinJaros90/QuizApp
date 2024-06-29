@@ -1,0 +1,50 @@
+body {
+    background-color: rgb(254, 250, 239) !important;
+}
+
+.container {
+    min-height: 100vh;
+    background-color: rgb(254, 250, 239) !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.question-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border-top: 1px solid rgba(0, 0, 0, 0.3);
+    padding-top: 12px;
+}
+
+.quiz-card {
+    width: 30rem;
+}
+
+/* Erhöhte Spezifität */
+.btn.next {
+    background-color: rgb(255, 78, 16);
+    color: white;
+}
+
+.btn.custom-next {
+    background-color: rgb(255, 78, 16);
+    color: white;
+}
+
+.btn.next:hover, .btn.custom-next:hover {
+    background-color: rgb(255, 50, 0);
+    color: white;
+}
+
+.btn.next:active, .btn.custom-next:active {
+    background-color: rgb(255, 50, 0);
+    color: white;
+}
+
+.quiz-answer-card:hover{
+ cursor: pointer;
+ background-color: rgba(0, 0, 0, 0.05);
+}

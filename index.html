@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QuizApp</title>
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./style.css">
     <script src="./script.js"></script>
 
     <!-- Bootstrap file -->
@@ -16,13 +16,54 @@
         crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body onload="init()">
 
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">Navbar</span>
+            <span class="navbar-brand mb-0 h1">QuizApp</span>
         </div>
     </nav>
+
+    <div class="container">
+        <div class="card quiz-card">
+            <img src="./img/brainbg.jpg" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title" id="questiontext">Question</h5>
+                <div class="card quiz-answer-card mb-2">
+                    <div class="card-body" id="answer_1" onclick="answer('answer_1')">
+                        Answer
+                    </div>
+                </div>
+
+                <div class="card quiz-answer-card mb-2">
+                    <div class="card-body" id="answer_2" onclick="answer('answer_2')">
+                        Answer
+                    </div>
+                </div>
+
+                <div class="card quiz-answer-card mb-2">
+                    <div class="card-body" id="answer_3" onclick="answer('answer_3')">
+                        Answer
+                    </div>
+                </div>
+
+                <div class="card quiz-answer-card mb-2">
+                    <div class="card-body" id="answer_4" onclick="answer('answer_4')">
+                        Answer
+                    </div>
+                </div>
+
+                <div class="question-footer">
+                    <span>
+                        <b>1</b> of <b id="all-questions">5</b> Questions
+                    </span>
+
+                    <button class="btn btn-warning next custom-next">Next question > </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
 </body>
 
