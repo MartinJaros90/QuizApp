@@ -87,5 +87,45 @@ function showQuestion() {
 }
 
 function answer(selection) {
+    // Deklariert eine Funktion namens 'answer', die eine Eingabe 'selection' erwartet.
     
+    let question = questions[currentQuestion];
+    // Holt die aktuelle Frage aus dem Array 'questions' mit dem Index 'currentQuestion'
+    // und speichert sie in der Variablen 'question'.
+    
+    console.log('Selected answer is', selection);
+    // Gibt die ausgewählte Antwort in der Konsole aus.
+    
+    let selectedQuestionNumber = selection.slice(-1);
+    // Schneidet das letzte Zeichen der 'selection'-Zeichenkette ab und speichert es in 'selectedQuestionNumber'.
+    // Dies wird angenommen, dass die Auswahl eine Zeichenkette ist und die Nummer der Antwort am Ende steht.
+    
+    console.log('selectedQuestionNumber is', selectedQuestionNumber);
+    // Gibt die ausgewählte Antwortnummer in der Konsole aus.
+    
+    console.log('Current question is', question['right_answer']);
+    // Gibt die richtige Antwort der aktuellen Frage in der Konsole aus.
+    
+    let idOfRightAnswer = `answer_${question['right_answer']}`;
+
+    if (selectedQuestionNumber == question['right_answer']) {
+        // Überprüft, ob die ausgewählte Antwortnummer mit der richtigen Antwort übereinstimmt.
+
+        console.log('Richtige Antwort!!!');
+        // Wenn die Antwort richtig ist, wird 'Richtige Antwort!!!' in der Konsole ausgegeben.
+
+        document.getElementById(selection).parentNode.classList.add('bg-success');
+        // Findet das HTML-Element mit der ID, die der 'selection' entspricht.
+        // Fügt der übergeordneten Node (z.B. einem <div>) des Elements die CSS-Klasse 'bg-success' hinzu,
+        // um die Auswahl als richtig zu markieren (durch eine grüne Hintergrundfarbe).
+    } else {
+        console.log('Falsche Antwort');
+        // Wenn die Antwort falsch ist, wird 'Falsche Antwort' in der Konsole ausgegeben.
+
+        document.getElementById(selection).parentNode.classList.add('bg-danger');
+        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
+        // Findet das HTML-Element mit der ID, die der 'selection' entspricht.
+        // Fügt der übergeordneten Node (z.B. einem <div>) des Elements die CSS-Klasse 'bg-danger' hinzu,
+        // um die Auswahl als falsch zu markieren (durch eine rote Hintergrundfarbe).
+    }
 }
