@@ -24,11 +24,11 @@ let questions = [
         "right_answer": 2
     },
     {
-        "question": "Welcher HTML-Tag wird verwendet, um ein Bild einzubinden?",
-        "answer_1": "<picture>",
-        "answer_2": "<img>",
-        "answer_3": "<image>",
-        "answer_4": "<src>",
+        "question": "Welches Unternehmen hat React entwickelt?",
+        "answer_1": "Google",
+        "answer_2": "Facebook",
+        "answer_3": "Microsoft",
+        "answer_4": "Apple",
         "right_answer": 2
     },
     {
@@ -57,7 +57,7 @@ let questions = [
     },
     {
         "question": "Welches Schlüsselwort wird in JavaScript verwendet, um eine Variable zu deklarieren?",
-        "answer_1": "var",
+        "answer_1": "let",
         "answer_2": "int",
         "answer_3": "declare",
         "answer_4": "variable",
@@ -65,67 +65,102 @@ let questions = [
     }
 ];
 
-
 let currentQuestion = 0;
-
+// Deklariert eine Variable 'currentQuestion', die den Index der aktuellen Frage speichert.
+// Sie wird initial auf 0 gesetzt, um mit der ersten Frage im Array zu beginnen.
 
 function init() {
+    // Deklariert eine Funktion namens 'init', die initiale Aktionen ausführt.
+    
     document.getElementById('all-questions').innerHTML = questions.length;
+    // Findet das HTML-Element mit der ID 'all-questions' und setzt seinen Inhalt auf die Anzahl der Fragen.
 
     showQuestion();
+    // Ruft die Funktion 'showQuestion' auf, um die aktuelle Frage anzuzeigen.
 }
 
-
 function showQuestion() {
+    // Deklariert eine Funktion namens 'showQuestion', die die aktuelle Frage und ihre Antworten anzeigt.
+    
     let question = questions[currentQuestion];
+    // Holt die aktuelle Frage aus dem Array 'questions' basierend auf 'currentQuestion'
+    // und speichert sie in der Variablen 'question'.
 
-    document.getElementById('questiontext').innerHTML = question['question'];
-    document.getElementById('answer_1').innerHTML = question['answer_1'];
-    document.getElementById('answer_2').innerHTML = question['answer_2'];
-    document.getElementById('answer_3').innerHTML = question['answer_3'];
-    document.getElementById('answer_4').innerHTML = question['answer_4'];
+    if (currentQuestion >= questions.length) {
+        //TODO: Show End Screen
+        document.getElementById('end-screen').style = '';
+        document.getElementById('question-body').style = 'display: none';
+    } else {
+    
+        document.getElementById('current-question').innerHTML = currentQuestion + 1;
+        document.getElementById('questiontext').innerHTML = question['question'];
+        // Setzt den Inhalt des HTML-Elements mit der ID 'questiontext' auf die Frage.
+        document.getElementById('answer_1').innerHTML = question['answer_1'];
+        // Setzt den Inhalt des HTML-Elements mit der ID 'answer_1' auf die erste Antwort.
+        document.getElementById('answer_2').innerHTML = question['answer_2'];
+        // Setzt den Inhalt des HTML-Elements mit der ID 'answer_2' auf die zweite Antwort.
+        document.getElementById('answer_3').innerHTML = question['answer_3'];
+        // Setzt den Inhalt des HTML-Elements mit der ID 'answer_3' auf die dritte Antwort.
+        document.getElementById('answer_4').innerHTML = question['answer_4'];
+        // Setzt den Inhalt des HTML-Elements mit der ID 'answer_4' auf die vierte Antwort.
+    }
 }
 
 function answer(selection) {
     // Deklariert eine Funktion namens 'answer', die eine Eingabe 'selection' erwartet.
     
     let question = questions[currentQuestion];
-    // Holt die aktuelle Frage aus dem Array 'questions' mit dem Index 'currentQuestion'
+    // Holt die aktuelle Frage aus dem Array 'questions' basierend auf 'currentQuestion'
     // und speichert sie in der Variablen 'question'.
-    
-    console.log('Selected answer is', selection);
-    // Gibt die ausgewählte Antwort in der Konsole aus.
     
     let selectedQuestionNumber = selection.slice(-1);
     // Schneidet das letzte Zeichen der 'selection'-Zeichenkette ab und speichert es in 'selectedQuestionNumber'.
     // Dies wird angenommen, dass die Auswahl eine Zeichenkette ist und die Nummer der Antwort am Ende steht.
     
-    console.log('selectedQuestionNumber is', selectedQuestionNumber);
-    // Gibt die ausgewählte Antwortnummer in der Konsole aus.
-    
-    console.log('Current question is', question['right_answer']);
-    // Gibt die richtige Antwort der aktuellen Frage in der Konsole aus.
-    
     let idOfRightAnswer = `answer_${question['right_answer']}`;
-
+    // Konstruiert die ID der richtigen Antwort basierend auf der 'right_answer'-Eigenschaft der Frage.
+    
     if (selectedQuestionNumber == question['right_answer']) {
         // Überprüft, ob die ausgewählte Antwortnummer mit der richtigen Antwort übereinstimmt.
-
-        console.log('Richtige Antwort!!!');
-        // Wenn die Antwort richtig ist, wird 'Richtige Antwort!!!' in der Konsole ausgegeben.
-
+        
         document.getElementById(selection).parentNode.classList.add('bg-success');
         // Findet das HTML-Element mit der ID, die der 'selection' entspricht.
         // Fügt der übergeordneten Node (z.B. einem <div>) des Elements die CSS-Klasse 'bg-success' hinzu,
         // um die Auswahl als richtig zu markieren (durch eine grüne Hintergrundfarbe).
     } else {
-        console.log('Falsche Antwort');
-        // Wenn die Antwort falsch ist, wird 'Falsche Antwort' in der Konsole ausgegeben.
-
         document.getElementById(selection).parentNode.classList.add('bg-danger');
-        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
         // Findet das HTML-Element mit der ID, die der 'selection' entspricht.
         // Fügt der übergeordneten Node (z.B. einem <div>) des Elements die CSS-Klasse 'bg-danger' hinzu,
         // um die Auswahl als falsch zu markieren (durch eine rote Hintergrundfarbe).
+        
+        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
+        // Findet das HTML-Element mit der ID der richtigen Antwort.
+        // Fügt der übergeordneten Node des Elements die CSS-Klasse 'bg-success' hinzu,
+        // um die richtige Antwort zu markieren (durch eine grüne Hintergrundfarbe).
     }
+    document.getElementById('next-button').disabled = false;
+    // Aktiviert den "Weiter"-Button, indem das 'disabled'-Attribut auf 'false' gesetzt wird.
+}
+
+function nextQuestion() {
+    // Deklariert eine Funktion namens 'nextQuestion', die zur nächsten Frage geht.
+    
+    currentQuestion++;
+    // Erhöht den Index der aktuellen Frage um 1, um zur nächsten Frage zu gehen.
+
+    document.getElementById('next-button').disabled = true;
+    resetAnswerButtons();
+    showQuestion();
+    // Ruft die Funktion 'showQuestion' auf, um die nächste Frage anzuzeigen.
+}
+
+function resetAnswerButtons() {
+    document.getElementById('answer_1').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_1').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_2').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_2').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_3').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_3').parentNode.classList.remove('bg-danger');
+    document.getElementById('answer_4').parentNode.classList.remove('bg-success');
+    document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
 }
