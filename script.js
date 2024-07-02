@@ -66,7 +66,6 @@ let questions = [
 ];
 
 let rightQuestions = 0;
-
 let currentQuestion = 0;
 // Deklariert eine Variable 'currentQuestion', die den Index der aktuellen Frage speichert.
 // Sie wird initial auf 0 gesetzt, um mit der ersten Frage im Array zu beginnen.
@@ -178,4 +177,16 @@ function resetAnswerButtons() {
     document.getElementById('answer_3').parentNode.classList.remove('bg-danger');
     document.getElementById('answer_4').parentNode.classList.remove('bg-success');
     document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
+}
+
+
+function restartGame() {
+    document.getElementById('header-img').src = './img/brainbg.jpg';
+    document.getElementById('question-body').style = '';
+    document.getElementById('end-screen').style = 'display: none';
+    
+    rightQuestions = 0;
+    currentQuestion = 0;
+    init();
+
 }
