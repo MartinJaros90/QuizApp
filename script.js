@@ -65,6 +65,8 @@ let questions = [
     }
 ];
 
+let rightQuestions = 0;
+
 let currentQuestion = 0;
 // Deklariert eine Variable 'currentQuestion', die den Index der aktuellen Frage speichert.
 // Sie wird initial auf 0 gesetzt, um mit der ersten Frage im Array zu beginnen.
@@ -87,10 +89,22 @@ function showQuestion() {
     // und speichert sie in der Variablen 'question'.
 
     if (currentQuestion >= questions.length) {
-        //TODO: Show End Screen
+        //Show End Screen
         document.getElementById('end-screen').style = '';
         document.getElementById('question-body').style = 'display: none';
-    } else {
+        document.getElementById('amount-of-questions').innerHTML = questions.length;
+        document.getElementById('amount-of-right-questions').innerHTML = rightQuestions;
+        document.getElementById('header-img').src = './img/trophy.png';
+    } else { //Show question
+
+        let percent = (currentQuestion + 1)/ questions.length;
+        percent = Math.round(percent * 100);
+
+        document.getElementById('progress-bar').innerHTML = `${percent} %`;
+        document.getElementById('progress-bar').style = `width: ${percent}%`;
+        console.log('Fortschritt', percent);
+
+        let question = questions[currentQuestion];
     
         document.getElementById('current-question').innerHTML = currentQuestion + 1;
         document.getElementById('questiontext').innerHTML = question['question'];
@@ -127,6 +141,7 @@ function answer(selection) {
         // Findet das HTML-Element mit der ID, die der 'selection' entspricht.
         // Fügt der übergeordneten Node (z.B. einem <div>) des Elements die CSS-Klasse 'bg-success' hinzu,
         // um die Auswahl als richtig zu markieren (durch eine grüne Hintergrundfarbe).
+        rightQuestions++;
     } else {
         document.getElementById(selection).parentNode.classList.add('bg-danger');
         // Findet das HTML-Element mit der ID, die der 'selection' entspricht.
