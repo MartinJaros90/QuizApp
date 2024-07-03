@@ -3,7 +3,7 @@ body {
 }
 
 .container {
-    min-height: 100vh;
+    height: 100vh;
     background-color: rgb(254, 250, 239) !important;
     display: flex;
     justify-content: center;
@@ -71,4 +71,12 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 24px;
+}
+
+@media(max-width:650px){
+    .container {
+        padding: 0;
+        height: auto;
+        margin-top: 80px;
+    }
 }

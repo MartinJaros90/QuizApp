@@ -5,7 +5,7 @@ let questions = [
         "answer_2": "Steve Jobs",
         "answer_3": "Tim Berners-Lee",
         "answer_4": "Mark Zuckerberg",
-        "right_answer": 3
+        "right_answer": 3 
     },
     {
         "question": "Was bedeutet das HTML Tag &lt;a&gt;?",
@@ -65,110 +65,97 @@ let questions = [
     }
 ];
 
-let rightQuestions = 0;
-let currentQuestion = 0;
-// Deklariert eine Variable 'currentQuestion', die den Index der aktuellen Frage speichert.
-// Sie wird initial auf 0 gesetzt, um mit der ersten Frage im Array zu beginnen.
+let rightQuestions = 0; // Speichert die Anzahl der richtig beantworteten Fragen.
+let currentQuestion = 0; // Speichert den Index der aktuellen Frage, initial auf 0 gesetzt.
+let audio_success = new Audio('sounds/success.mp3');
+let audio_fail = new Audio('sounds/fail.mp3');
 
 function init() {
-    // Deklariert eine Funktion namens 'init', die initiale Aktionen ausführt.
-    
-    document.getElementById('all-questions').innerHTML = questions.length;
-    // Findet das HTML-Element mit der ID 'all-questions' und setzt seinen Inhalt auf die Anzahl der Fragen.
-
-    showQuestion();
-    // Ruft die Funktion 'showQuestion' auf, um die aktuelle Frage anzuzeigen.
+    // Initialisiert das Quiz.
+    document.getElementById('all-questions').innerHTML = questions.length;  // Zeigt die Gesamtzahl der Fragen an.
+    showQuestion(); // Zeigt die aktuelle Frage an.
 }
 
 function showQuestion() {
-    // Deklariert eine Funktion namens 'showQuestion', die die aktuelle Frage und ihre Antworten anzeigt.
-    
-    let question = questions[currentQuestion];
-    // Holt die aktuelle Frage aus dem Array 'questions' basierend auf 'currentQuestion'
-    // und speichert sie in der Variablen 'question'.
-
-    if (currentQuestion >= questions.length) {
-        //Show End Screen
-        document.getElementById('end-screen').style = '';
-        document.getElementById('question-body').style = 'display: none';
-        document.getElementById('amount-of-questions').innerHTML = questions.length;
-        document.getElementById('amount-of-right-questions').innerHTML = rightQuestions;
-        document.getElementById('header-img').src = './img/trophy.png';
-    } else { //Show question
-
-        let percent = (currentQuestion + 1)/ questions.length;
-        percent = Math.round(percent * 100);
-
-        document.getElementById('progress-bar').innerHTML = `${percent} %`;
-        document.getElementById('progress-bar').style = `width: ${percent}%`;
-        console.log('Fortschritt', percent);
-
-        let question = questions[currentQuestion];
-    
-        document.getElementById('current-question').innerHTML = currentQuestion + 1;
-        document.getElementById('questiontext').innerHTML = question['question'];
-        // Setzt den Inhalt des HTML-Elements mit der ID 'questiontext' auf die Frage.
-        document.getElementById('answer_1').innerHTML = question['answer_1'];
-        // Setzt den Inhalt des HTML-Elements mit der ID 'answer_1' auf die erste Antwort.
-        document.getElementById('answer_2').innerHTML = question['answer_2'];
-        // Setzt den Inhalt des HTML-Elements mit der ID 'answer_2' auf die zweite Antwort.
-        document.getElementById('answer_3').innerHTML = question['answer_3'];
-        // Setzt den Inhalt des HTML-Elements mit der ID 'answer_3' auf die dritte Antwort.
-        document.getElementById('answer_4').innerHTML = question['answer_4'];
-        // Setzt den Inhalt des HTML-Elements mit der ID 'answer_4' auf die vierte Antwort.
+    // Zeigt die aktuelle Frage und ihre Antworten an.
+    if (gameIsOver()) {
+        // Wenn alle Fragen beantwortet sind, zeige den Endbildschirm an.
+        showEndScreen();
+    } else {
+        updateProgressBar();
+        updateToNextQuestion();
     }
 }
 
-function answer(selection) {
-    // Deklariert eine Funktion namens 'answer', die eine Eingabe 'selection' erwartet.
+
+function gameIsOver() {
+    return currentQuestion >= questions.length;
+}
+
+
+function showEndScreen() {
+    let question = questions[currentQuestion];  // Holt die aktuelle Frage aus dem Array 'questions' basierend auf 'currentQuestion'.
+
+    document.getElementById('end-screen').style = ''; // Endbildschirm anzeigen.
+    document.getElementById('question-body').style = 'display: none'; // Fragenbildschirm ausblenden.
+    document.getElementById('amount-of-questions').innerHTML = questions.length; // Anzahl der Fragen anzeigen.
+    document.getElementById('amount-of-right-questions').innerHTML = rightQuestions; // Anzahl der richtig beantworteten Fragen anzeigen.
+    document.getElementById('header-img').src = './img/trophy.png'; // Bild im Header ändern.
+}
+
+
+function updateProgressBar() {
+        // Wenn noch Fragen übrig sind, zeige die nächste Frage an.
+        let percent = (currentQuestion + 1) / questions.length; // Berechnet den Fortschritt in Prozent.
+        percent = Math.round(percent * 100); // Rundet den Fortschritt auf die nächste ganze Zahl.
+
+        document.getElementById('progress-bar').innerHTML = `${percent} %`; // Fortschritt in Prozent anzeigen.
+        document.getElementById('progress-bar').style = `width: ${percent}%`; // Fortschrittsbalken anpassen.
+}
+
+
+
+function updateToNextQuestion() {
+    document.getElementById('current-question').innerHTML = currentQuestion + 1; // Zeigt die aktuelle Fragezahl an.
+    document.getElementById('questiontext').innerHTML = question['question']; // Zeigt die Frage an.
+    document.getElementById('answer_1').innerHTML = question['answer_1']; // Zeigt die erste Antwort an.
+    document.getElementById('answer_2').innerHTML = question['answer_2']; // Zeigt die zweite Antwort an.
+    document.getElementById('answer_3').innerHTML = question['answer_3']; // Zeigt die dritte Antwort an.
+    document.getElementById('answer_4').innerHTML = question['answer_4']; // Zeigt die vierte Antwort an.
+}
+
+
+function answer(selection) {    // Überprüft die ausgewählte Antwort.
+    let question = questions[currentQuestion];  // Holt die aktuelle Frage aus dem Array 'questions'.
+
+    let selectedQuestionNumber = selection.slice(-1);   // Schneidet das letzte Zeichen der 'selection' Zeichenkette ab und speichert es in 'selectedQuestionNumber'.
     
-    let question = questions[currentQuestion];
-    // Holt die aktuelle Frage aus dem Array 'questions' basierend auf 'currentQuestion'
-    // und speichert sie in der Variablen 'question'.
-    
-    let selectedQuestionNumber = selection.slice(-1);
-    // Schneidet das letzte Zeichen der 'selection'-Zeichenkette ab und speichert es in 'selectedQuestionNumber'.
-    // Dies wird angenommen, dass die Auswahl eine Zeichenkette ist und die Nummer der Antwort am Ende steht.
-    
-    let idOfRightAnswer = `answer_${question['right_answer']}`;
-    // Konstruiert die ID der richtigen Antwort basierend auf der 'right_answer'-Eigenschaft der Frage.
-    
-    if (selectedQuestionNumber == question['right_answer']) {
-        // Überprüft, ob die ausgewählte Antwortnummer mit der richtigen Antwort übereinstimmt.
-        
-        document.getElementById(selection).parentNode.classList.add('bg-success');
-        // Findet das HTML-Element mit der ID, die der 'selection' entspricht.
-        // Fügt der übergeordneten Node (z.B. einem <div>) des Elements die CSS-Klasse 'bg-success' hinzu,
-        // um die Auswahl als richtig zu markieren (durch eine grüne Hintergrundfarbe).
-        rightQuestions++;
-    } else {
-        document.getElementById(selection).parentNode.classList.add('bg-danger');
-        // Findet das HTML-Element mit der ID, die der 'selection' entspricht.
-        // Fügt der übergeordneten Node (z.B. einem <div>) des Elements die CSS-Klasse 'bg-danger' hinzu,
-        // um die Auswahl als falsch zu markieren (durch eine rote Hintergrundfarbe).
-        
-        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
-        // Findet das HTML-Element mit der ID der richtigen Antwort.
-        // Fügt der übergeordneten Node des Elements die CSS-Klasse 'bg-success' hinzu,
-        // um die richtige Antwort zu markieren (durch eine grüne Hintergrundfarbe).
+    let idOfRightAnswer = `answer_${question['right_answer']}`; // Konstruiert die ID der richtigen Antwort basierend auf der 'right_answer' Eigenschaft der Frage.
+
+    if (selectedQuestionNumber == question['right_answer']) {   // Wenn die ausgewählte Antwort richtig ist...
+        document.getElementById(selection).parentNode.classList.add('bg-success');  // Markiere die richtige Antwort grün.
+        audio_success.play();
+        rightQuestions++; // Erhöhe die Anzahl der richtig beantworteten Fragen.
+        } else {
+        // Wenn die ausgewählte Antwort falsch ist...
+        document.getElementById(selection).parentNode.classList.add('bg-danger');   // Markiere die falsche Antwort rot.
+        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');    // Markiere die richtige Antwort grün.
+        audio_fail.play();
     }
-    document.getElementById('next-button').disabled = false;
-    // Aktiviert den "Weiter"-Button, indem das 'disabled'-Attribut auf 'false' gesetzt wird.
+    document.getElementById('next-button').disabled = false;    // Aktiviert den "Weiter"-Button.
 }
 
 function nextQuestion() {
-    // Deklariert eine Funktion namens 'nextQuestion', die zur nächsten Frage geht.
-    
-    currentQuestion++;
-    // Erhöht den Index der aktuellen Frage um 1, um zur nächsten Frage zu gehen.
+    // Geht zur nächsten Frage.
+    currentQuestion++; // Erhöht den Index der aktuellen Frage um 1.
 
-    document.getElementById('next-button').disabled = true;
-    resetAnswerButtons();
-    showQuestion();
-    // Ruft die Funktion 'showQuestion' auf, um die nächste Frage anzuzeigen.
+    document.getElementById('next-button').disabled = true; // Deaktiviert den "Weiter"-Button.
+    resetAnswerButtons(); // Setzt die Antwort-Buttons zurück.
+    showQuestion(); // Zeigt die nächste Frage an.
 }
 
 function resetAnswerButtons() {
+    // Setzt die Hintergrundfarben der Antwort-Buttons zurück.
     document.getElementById('answer_1').parentNode.classList.remove('bg-success');
     document.getElementById('answer_1').parentNode.classList.remove('bg-danger');
     document.getElementById('answer_2').parentNode.classList.remove('bg-success');
@@ -179,14 +166,13 @@ function resetAnswerButtons() {
     document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
 }
 
-
 function restartGame() {
-    document.getElementById('header-img').src = './img/brainbg.jpg';
-    document.getElementById('question-body').style = '';
-    document.getElementById('end-screen').style = 'display: none';
+    // Startet das Quiz neu.
+    document.getElementById('header-img').src = './img/brainbg.jpg'; // Setzt das Bild im Header zurück.
+    document.getElementById('question-body').style = ''; // Zeigt den Fragenbildschirm an.
+    document.getElementById('end-screen').style = 'display: none'; // Blendet den Endbildschirm aus.
     
-    rightQuestions = 0;
-    currentQuestion = 0;
-    init();
-
+    rightQuestions = 0; // Setzt die Anzahl der richtig beantworteten Fragen zurück.
+    currentQuestion = 0; // Setzt den Index der aktuellen Frage zurück.
+    init(); // Initialisiert das Quiz.
 }
